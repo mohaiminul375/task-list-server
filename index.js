@@ -39,7 +39,19 @@ async function run() {
       const result = await taskCollection.insertOne(task);
       res.send(result);
     });
-
+    // patch
+    app.patch("/tasks/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedInfo = req.body;
+      const query = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set: {
+          ...updatedInfo,
+        },
+      };
+      const result = await taskCollection.updateOne(query, updatedDoc);
+      res.send(result);
+    });
     // Delete
     app.delete("/tasks/:id", async (req, res) => {
       const id = req.params.id;
