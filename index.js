@@ -3,9 +3,20 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 3000;
+// cors origin
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://task-list-375.web.app",
+  ],
+
+  optionSuccessStatus: 200,
+};
+
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 // mongodb
@@ -40,7 +51,7 @@ async function run() {
       res.send(result);
     });
     // post
-    app.post  ("/tasks", async (req, res) => {
+    app.post("/tasks", async (req, res) => {
       const task = req.body;
       const result = await taskCollection.insertOne(task);
       res.send(result);
