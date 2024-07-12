@@ -32,9 +32,15 @@ async function run() {
       const result = await taskCollection.find().toArray();
       res.send(result);
     });
-
+    // get data by id
+    app.get("/tasks/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await taskCollection.findOne(query);
+      res.send(result);
+    });
     // post
-    app.post("/tasks", async (req, res) => {
+    app.post  ("/tasks", async (req, res) => {
       const task = req.body;
       const result = await taskCollection.insertOne(task);
       res.send(result);
